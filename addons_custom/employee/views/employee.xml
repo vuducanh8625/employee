@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sequence_employee_id" model="ir.sequence">
+            <field name="name">Employee ID Sequence</field>
+            <field name="code">employee.sequence</field>
+            <field name="prefix">EMP</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+
+        <record id="employee_form" model="ir.ui.view">
+            <field name="name">Employee</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <form string="Employee">
+                    <header>
+                        <button string="Reset"
+                                name="action_reset"
+                                type="object"
+                                confirm="Bạn có chắc muốn reset toàn bộ thông tin nhân viên không?"
+                                class="btn-danger"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Personal Information">
+                                <field name="name"/>
+                                <field name="last_name" readonly="1"/>
+                                <field name="first_name" readonly="1"/>
+                                <field name="birth_date"/>
+                                <field name="age" readonly="1"/>
+                                <field name="sex"/>
+                                <field name="province_id"/>
+                                <field name="ward_id"/>
+                                <field name="street"/>
+                            </group>
+                            <group string="Work Information">
+                                <field name="employee_id"/>
+                                <field name="position"/>
+                                <field name="salary"/>
+                                <field name="parttime"/>
+                                <field name="work_hours"/>
+                                <field name="department_id"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                        <group string="Contact">
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Contracts">
+                                <field name="contract_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Skills">
+                                <field name="skill_ids">
+                                    <list editable="bottom">
+                                        <field name="skill_id" string="Skill"/>
+                                        <field name="level_id" string="Level"
+                                               domain="[('skill_id', '=', skill_id)]"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Work">
+                                <field name="project_ids">
+                                    <list editable="bottom">
+                                        <field name="name" string="Project Name"/>
+                                        <field name="state" string="Status"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_lead" model="ir.ui.view">
+            <field name="name">employee</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <list string="Employees">
+                    <field name="employee_id" string="ID"/>
+                    <field name="name"/>
+                    <field name="last_name"/>
+                    <field name="first_name"/>
+                    <field name="position"/>
+                    <field name="department_id"/>
+                    <field name="user_id"/>
+                    <field name="province_id"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="salary"/>
+                    <field name="parttime"/>
+                    <field name="work_hours"/>
+                    <field name="sex"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="employee_search" model="ir.ui.view">
+            <field name="name">employee.search</field>
+            <field name="model">employee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="last_name" string="Last Name"/>
+                    <field name="first_name" string="First Name"/>
+                    <field name="position" string="Position"/>
+                    <field name="email" string="Email"/>
+                    <field name="employee_id" string="Employee ID"/>
+                    <field name="department_id" string="Department"/>
+                    <field name="user_id" string="Tài khoản"/>
+                    <field name="province_id" string="Tỉnh/Thành phố"/>
+                    <separator/>
+                    <filter string="Part Time" name="parttime" domain="[('parttime', '=', True)]"/>
+                    <filter string="Full Time" name="fulltime" domain="[('parttime', '=', False)]"/>
+                    <separator/>
+                    <filter string="Male" name="male" domain="[('sex', '=', 'male')]"/>
+                    <filter string="Female" name="female" domain="[('sex', '=', 'female')]"/>
+                    <separator/>
+                    <filter string="Theo phòng ban" name="group_by_department"
+                            context="{'group_by': 'department_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Department views -->
+        <record id="department_form" model="ir.ui.view">
+            <field name="name">department.form</field>
+            <field name="model">department</field>
+            <field name="arch" type="xml">
+                <form string="Department">
+                    <sheet>
+                        <group>
+                            <field name="name" string="Tên phòng ban"/>
+                        </group>
+                        <field name="employee_ids" string="Danh sách nhân viên">
+                            <list>
+                                <field name="employee_id" string="ID"/>
+                                <field name="name" string="Họ tên"/>
+                                <field name="position" string="Vị trí"/>
+                                <field name="email" string="Email"/>
+                                <field name="phone" string="Điện thoại"/>
+                                <field name="parttime" string="Part Time"/>
+                            </list>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="department_list" model="ir.ui.view">
+            <field name="name">department.list</field>
+            <field name="model">department</field>
+            <field name="arch" type="xml">
+                <list string="Departments">
+                    <field name="name" string="Tên phòng ban"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="employee_people" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="res_model">employee</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_department" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="res_model">department</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_skill" model="ir.actions.act_window">
+            <field name="name">Skills</field>
+            <field name="res_model">skill</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

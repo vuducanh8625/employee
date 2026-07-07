@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_import_provinces_wards" model="ir.cron">
+        <field name="name">Đồng bộ Tỉnh/Phường từ API (open-api.vn)</field>
+        <field name="model_id" ref="model_province"/>
+        <field name="state">code</field>
+        <field name="code">model.action_import_provinces_wards_from_api()</field>
+        <!-- Chạy định kỳ mỗi 7 ngày, có thể chỉnh interval_number/interval_type -->
+        <field name="interval_number">7</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

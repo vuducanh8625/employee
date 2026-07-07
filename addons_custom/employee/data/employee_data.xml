@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================
+             DEPARTMENTS
+        ============================================================ -->
+        <record id="dept_engineering" model="department">
+            <field name="name">Kỹ thuật</field>
+        </record>
+
+        <record id="dept_accounting" model="department">
+            <field name="name">Kế toán</field>
+        </record>
+
+        <record id="dept_sales" model="department">
+            <field name="name">Kinh doanh</field>
+        </record>
+
+        <!-- ============================================================
+             SKILLS + LEVELS
+        ============================================================ -->
+        <record id="skill_python" model="skill">
+            <field name="name">Python</field>
+        </record>
+        <record id="level_python_basic" model="skill.level">
+            <field name="name">Cơ bản</field>
+            <field name="skill_id" ref="skill_python"/>
+        </record>
+        <record id="level_python_advanced" model="skill.level">
+            <field name="name">Nâng cao</field>
+            <field name="skill_id" ref="skill_python"/>
+        </record>
+
+        <record id="skill_excel" model="skill">
+            <field name="name">Excel</field>
+        </record>
+        <record id="level_excel_basic" model="skill.level">
+            <field name="name">Cơ bản</field>
+            <field name="skill_id" ref="skill_excel"/>
+        </record>
+        <record id="level_excel_advanced" model="skill.level">
+            <field name="name">Nâng cao</field>
+            <field name="skill_id" ref="skill_excel"/>
+        </record>
+
+        <record id="skill_communication" model="skill">
+            <field name="name">Giao tiếp</field>
+        </record>
+        <record id="level_comm_good" model="skill.level">
+            <field name="name">Tốt</field>
+            <field name="skill_id" ref="skill_communication"/>
+        </record>
+
+        <!-- ============================================================
+             EMPLOYEES
+        ============================================================ -->
+
+        <!-- Employee 1: Nguyễn Văn An -->
+        <record id="employee_nguyen_van_an" model="employee">
+            <field name="name">Nguyễn Văn An</field>
+            <field name="employee_id">EMP001</field>
+            <field name="position">Kỹ sư phần mềm</field>
+            <field name="email">an.nguyen@company.com</field>
+            <field name="phone">0901234561</field>
+            <field name="salary">20000000</field>
+            <field name="sex">male</field>
+            <field name="parttime" eval="False"/>
+            <field name="work_hours">40</field>
+            <field name="birth_date">1995-03-15</field>
+            <field name="department_id" ref="dept_engineering"/>
+            <field name="description">Kỹ sư phần mềm giàu kinh nghiệm về Python và Odoo.</field>
+        </record>
+        <record id="emp_skill_an_python" model="employee.skill">
+            <field name="employee_id" ref="employee_nguyen_van_an"/>
+            <field name="skill_id" ref="skill_python"/>
+            <field name="level_id" ref="level_python_advanced"/>
+        </record>
+        <record id="contract_an" model="contract">
+            <field name="name">HĐ-AN-2024</field>
+            <field name="start_date">2024-01-01</field>
+            <field name="end_date">2025-12-31</field>
+            <field name="employee_id" ref="employee_nguyen_van_an"/>
+        </record>
+
+        <!-- Employee 2: Trần Thị Bích -->
+        <record id="employee_tran_thi_bich" model="employee">
+            <field name="name">Trần Thị Bích</field>
+            <field name="employee_id">EMP002</field>
+            <field name="position">Kế toán trưởng</field>
+            <field name="email">bich.tran@company.com</field>
+            <field name="phone">0901234562</field>
+            <field name="salary">18000000</field>
+            <field name="sex">female</field>
+            <field name="parttime" eval="False"/>
+            <field name="work_hours">40</field>
+            <field name="birth_date">1990-07-22</field>
+            <field name="department_id" ref="dept_accounting"/>
+            <field name="description">Kế toán trưởng với hơn 10 năm kinh nghiệm tài chính.</field>
+        </record>
+        <record id="emp_skill_bich_excel" model="employee.skill">
+            <field name="employee_id" ref="employee_tran_thi_bich"/>
+            <field name="skill_id" ref="skill_excel"/>
+            <field name="level_id" ref="level_excel_advanced"/>
+        </record>
+        <record id="contract_bich" model="contract">
+            <field name="name">HĐ-BICH-2024</field>
+            <field name="start_date">2024-02-01</field>
+            <field name="end_date">2025-12-31</field>
+            <field name="employee_id" ref="employee_tran_thi_bich"/>
+        </record>
+
+        <!-- Employee 3: Lê Minh Cường -->
+        <record id="employee_le_minh_cuong" model="employee">
+            <field name="name">Lê Minh Cường</field>
+            <field name="employee_id">EMP003</field>
+            <field name="position">Trưởng phòng kinh doanh</field>
+            <field name="email">cuong.le@company.com</field>
+            <field name="phone">0901234563</field>
+            <field name="salary">22000000</field>
+            <field name="sex">male</field>
+            <field name="parttime" eval="False"/>
+            <field name="work_hours">40</field>
+            <field name="birth_date">1988-11-10</field>
+            <field name="department_id" ref="dept_sales"/>
+            <field name="description">Trưởng phòng kinh doanh năng động, đạt nhiều thành tích xuất sắc.</field>
+        </record>
+        <record id="emp_skill_cuong_comm" model="employee.skill">
+            <field name="employee_id" ref="employee_le_minh_cuong"/>
+            <field name="skill_id" ref="skill_communication"/>
+            <field name="level_id" ref="level_comm_good"/>
+        </record>
+        <record id="contract_cuong" model="contract">
+            <field name="name">HĐ-CUONG-2023</field>
+            <field name="start_date">2023-06-01</field>
+            <field name="end_date">2025-05-31</field>
+            <field name="employee_id" ref="employee_le_minh_cuong"/>
+        </record>
+
+        <!-- Employee 4: Phạm Thị Dung (Part Time) -->
+        <record id="employee_pham_thi_dung" model="employee">
+            <field name="name">Phạm Thị Dung</field>
+            <field name="employee_id">EMP004</field>
+            <field name="position">Nhân viên nhân sự</field>
+            <field name="email">dung.pham@company.com</field>
+            <field name="phone">0901234564</field>
+            <field name="salary">10000000</field>
+            <field name="sex">female</field>
+            <field name="parttime" eval="True"/>
+            <field name="work_hours">20</field>
+            <field name="birth_date">1998-05-30</field>
+            <field name="department_id" ref="dept_accounting"/>
+            <field name="description">Nhân viên nhân sự làm việc bán thời gian.</field>
+        </record>
+        <record id="emp_skill_dung_comm" model="employee.skill">
+            <field name="employee_id" ref="employee_pham_thi_dung"/>
+            <field name="skill_id" ref="skill_communication"/>
+            <field name="level_id" ref="level_comm_good"/>
+        </record>
+        <record id="contract_dung" model="contract">
+            <field name="name">HĐ-DUNG-2024</field>
+            <field name="start_date">2024-03-01</field>
+            <field name="end_date">2024-12-31</field>
+            <field name="employee_id" ref="employee_pham_thi_dung"/>
+        </record>
+
+        <!-- Employee 5: Hoàng Văn Em -->
+        <record id="employee_hoang_van_em" model="employee">
+            <field name="name">Hoàng Văn Em</field>
+            <field name="employee_id">EMP005</field>
+            <field name="position">Quản trị hệ thống</field>
+            <field name="email">em.hoang@company.com</field>
+            <field name="phone">0901234565</field>
+            <field name="salary">17000000</field>
+            <field name="sex">male</field>
+            <field name="parttime" eval="False"/>
+            <field name="work_hours">40</field>
+            <field name="birth_date">1993-09-05</field>
+            <field name="department_id" ref="dept_engineering"/>
+            <field name="description">Quản trị hệ thống, chuyên về hạ tầng và bảo mật.</field>
+        </record>
+        <record id="emp_skill_em_python" model="employee.skill">
+            <field name="employee_id" ref="employee_hoang_van_em"/>
+            <field name="skill_id" ref="skill_python"/>
+            <field name="level_id" ref="level_python_basic"/>
+        </record>
+        <record id="contract_em" model="contract">
+            <field name="name">HĐ-EM-2024</field>
+            <field name="start_date">2024-01-15</field>
+            <field name="end_date">2025-01-14</field>
+            <field name="employee_id" ref="employee_hoang_van_em"/>
+        </record>
+
+    </data>
+</odoo>

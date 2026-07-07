@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem name="Employee"
+          id="employee_parent"
+          sequence="550"
+          web_icon="employee,static/img/quatao.jpg"
+>
+
+        <menuitem id="employee_menu" name="Employee" sequence="1"
+                  action="employee_people"/>
+
+        <menuitem id="menu_contract" name="Contracts" sequence="2"
+                  action="action_contract"/>
+
+        <menuitem id="menu_employee_report" name="Reports" sequence="3"
+                  action="action_employee_report"/>
+
+        <menuitem id="menu_configuration" name="Configuration" sequence="4">
+
+            <menuitem id="menu_department" name="Departments" sequence="1"
+                      action="action_department"/>
+
+            <menuitem id="menu_skill" name="Skills" sequence="2"
+                      action="action_skill"/>
+
+            <menuitem id="menu_contract_type" name="Contract Types" sequence="3"
+                      action="action_contract_type"/>
+        </menuitem>
+
+    </menuitem>
+
+</odoo>
