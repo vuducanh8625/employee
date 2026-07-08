@@ -9,7 +9,7 @@ class Contract(models.Model):
     _description = 'Hợp đồng'
 
     name = fields.Char(string="Contract Name")
-    code = fields.Char(string="Mã hợp đồng", size=20)
+    code = fields.Char(string="Mã hợp đồng", size=20, readonly=True, copy=False)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     employee_id = fields.Many2one(
@@ -61,8 +61,90 @@ class Contract(models.Model):
                 'end_date': rec.end_date,
             })
 
+    @api.model
+    def _get_default_code_sequence(self):
+        """Sequence dùng chung khi hợp đồng CHƯA chọn Loại hợp đồng (hoặc
+        loại đó chưa có Mã loại hợp đồng), dùng prefix cố định 'HD'."""
+        Sequence = self.env['ir.sequence'].sudo()
+        seq = Sequence.search([('code', '=', 'contract.code.default')], limit=1)
+        if not seq:
+            seq = Sequence.create({
+                'name': "Sequence mã hợp đồng mặc định (chưa chọn loại HĐ)",
+                'code': 'contract.code.default',
+                'padding': 4,
+                'number_increment': 1,
+                'number_next': 1,
+                'implementation': 'no_gap',
+            })
+        return seq
+
+    @api.model
+    def _get_default_code_last_period(self):
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'contract.default_code_last_period', default=''
+        )
+
+    @api.model
+    def _set_default_code_last_period(self, period):
+        self.env['ir.config_parameter'].sudo().set_param(
+            'contract.default_code_last_period', period
+        )
+
+    @api.model
+    def _peek_code(self, contract_type_id=None):
+        """Xem trước mã hợp đồng (KHÔNG tăng số đếm thật) để hiển thị ngay
+        khi mở form 'Mới', trước khi Lưu."""
+        period = '%04d%02d' % (fields.Date.context_today(self).year,
+                                fields.Date.context_today(self).month)
+        if contract_type_id:
+            contract_type = self.env['contract.type'].browse(contract_type_id)
+            if contract_type.exists() and contract_type.code:
+                return contract_type.peek_next_contract_code()
+        # Chưa chọn Loại hợp đồng (hoặc loại chưa có mã) -> preview theo sequence mặc định
+        seq = self._get_default_code_sequence()
+        if self._get_default_code_last_period() != period:
+            seq_part = '1'.zfill(seq.padding or 4)
+        else:
+            seq_part = str(seq.sudo().number_next).zfill(seq.padding or 4)
+        return f"HD{period}{seq_part}"
+
+    @api.model
+    def _generate_code(self, contract_type_id=None):
+        """Sinh mã hợp đồng THẬT (có tăng số đếm), gọi trong create()."""
+        if contract_type_id:
+            contract_type = self.env['contract.type'].browse(contract_type_id)
+            if contract_type.exists() and contract_type.code:
+                return contract_type.get_next_contract_code()
+        # Chưa chọn Loại hợp đồng (hoặc loại chưa có mã) -> dùng sequence mặc định
+        seq = self._get_default_code_sequence()
+        period = '%04d%02d' % (fields.Date.context_today(self).year,
+                                fields.Date.context_today(self).month)
+        if self._get_default_code_last_period() != period:
+            seq.sudo().write({'number_next': 1})
+            self._set_default_code_last_period(period)
+        seq_part = seq.next_by_id()
+        return f"HD{period}{seq_part}"
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if 'code' in fields_list:
+            res['code'] = self._peek_code(res.get('contract_type_id'))
+        return res
+
+    @api.onchange('contract_type_id')
+    def _onchange_contract_type_id_code_preview(self):
+        # Chỉ cập nhật preview cho bản ghi CHƯA lưu; hợp đồng đã lưu thì
+        # mã đã chốt, không được đổi khi đổi loại hợp đồng sau này.
+        if not isinstance(self.id, int):
+            self.code = self._peek_code(self.contract_type_id.id)
+
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            # Mã hiển thị trước đó (nếu có) chỉ là preview -> luôn tính lại
+            # mã THẬT tại đây để đảm bảo số đếm chỉ tăng đúng 1 lần lúc Lưu.
+            vals['code'] = self._generate_code(vals.get('contract_type_id'))
         records = super().create(vals_list)
         for rec in records:
             rec._log_salary_history()

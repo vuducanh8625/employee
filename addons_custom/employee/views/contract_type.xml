@@ -6,6 +6,7 @@
         <field name="model">contract.type</field>
         <field name="arch" type="xml">
             <list>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="default_duration"/>
             </list>
@@ -19,6 +20,7 @@
             <form>
                 <sheet>
                     <group>
+                        <field name="code" placeholder="VD: HD1Y"/>
                         <field name="name"/>
                         <field name="default_duration"/>
                     </group>
