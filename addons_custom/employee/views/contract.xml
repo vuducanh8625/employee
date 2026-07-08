@@ -65,7 +65,7 @@
                     </group>
                     <notebook>
                         <page string="Phụ cấp">
-                            <field name="allowance_ids">
+                            <field name="allowance_ids" readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="name"/>
                                     <field name="amount"/>

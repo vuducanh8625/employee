@@ -5,8 +5,9 @@
     'category': 'Human Resources',
     'summary': 'employyee',
     'version': '1.0',
-    'depends': ['mail'],
+    'depends': ['base','mail'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/employee.xml',
         'views/contract_type.xml',
@@ -18,7 +19,6 @@
         'data/employee_data.xml',
         'data/province_ward_cron.xml',
         'data/contract_expire_cron.xml',
-        'security/security.xml',
     ],
     'installable': True,
     'auto_install': True,
