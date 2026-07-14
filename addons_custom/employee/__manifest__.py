@@ -14,6 +14,7 @@
         'views/employee_report.xml',
         'views/contract_renew_wizard.xml',
         'views/contract.xml',
+        'views/contract_report.xml',
         'views/menu.xml',
         'data/employee_sequence.xml',
         'data/employee_data.xml',

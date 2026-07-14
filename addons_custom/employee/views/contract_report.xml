@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ================= ACTION REPORT (IN PDF) ================= -->
+    <!-- ================= ACTION REPORT ================= -->
     <record id="action_report_contract" model="ir.actions.report">
         <field name="name">In hợp đồng lao động</field>
         <field name="model">contract</field>
@@ -95,37 +95,5 @@
             </t>
         </t>
     </template>
-
-    <!-- ================= PIVOT VIEW (THỐNG KÊ) ================= -->
-    <record id="view_contract_report_pivot" model="ir.ui.view">
-        <field name="name">contract.report.pivot</field>
-        <field name="model">contract</field>
-        <field name="arch" type="xml">
-            <pivot string="Thống kê hợp đồng">
-                <field name="contract_type_id" type="row"/>
-                <field name="state" type="col"/>
-                <field name="total_salary" type="measure"/>
-            </pivot>
-        </field>
-    </record>
-
-    <!-- ================= GRAPH VIEW (THỐNG KÊ) ================= -->
-    <record id="view_contract_report_graph" model="ir.ui.view">
-        <field name="name">contract.report.graph</field>
-        <field name="model">contract</field>
-        <field name="arch" type="xml">
-            <graph string="Tỷ lệ hợp đồng theo trạng thái" type="pie">
-                <field name="state"/>
-            </graph>
-        </field>
-    </record>
-
-    <!-- ================= ACTION THỐNG KÊ ================= -->
-    <record id="action_contract_report" model="ir.actions.act_window">
-        <field name="name">Thống kê hợp đồng</field>
-        <field name="res_model">contract</field>
-        <field name="view_mode">pivot,graph</field>
-        <field name="context">{'pivot_measures': ['__count', 'total_salary']}</field>
-    </record>
 
 </odoo>

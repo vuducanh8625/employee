@@ -9,14 +9,14 @@
 
         <menuitem id="employee_menu" name="Employee" sequence="1"
                   action="employee_people"/>
-
         <menuitem id="menu_contract" name="Contracts" sequence="2"
                   action="action_contract"/>
-
         <menuitem id="menu_employee_report" name="Reports" sequence="3"
                   action="action_employee_report"/>
+        <menuitem id="menu_contract_report" name="Thống kê hợp đồng" sequence="4"
+                  action="action_contract_report"/>
 
-        <menuitem id="menu_configuration" name="Configuration" sequence="4">
+        <menuitem id="menu_configuration" name="Configuration" sequence="5">
 
             <menuitem id="menu_department" name="Departments" sequence="1"
                       action="action_department"/>
