@@ -4,8 +4,7 @@
     <menuitem name="Employee"
           id="employee_parent"
           sequence="550"
-          web_icon="employee,static/img/quatao.jpg"
->
+          web_icon="employee,static/img/quatao.jpg">
 
         <menuitem id="employee_menu" name="Employee" sequence="1"
                   action="employee_people"/>
@@ -14,6 +13,8 @@
         <menuitem id="menu_employee_report" name="Reports" sequence="3"
                   action="action_employee_report"/>
         <menuitem id="menu_contract_report" name="Thống kê hợp đồng" sequence="4"
+                  action="action_contract_report"/>
+        <menuitem id="menu_contract_report" name="Dashboard hợp đồng" sequence="4"
                   action="action_contract_report"/>
 
         <menuitem id="menu_configuration" name="Configuration" sequence="5">
