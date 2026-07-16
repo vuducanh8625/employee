@@ -4,17 +4,29 @@
     <t t-name="employee.Playground">
         <div class="p-4">
             <h3>Owl Playground - Counter đã tách thành component riêng</h3>
-            <Counter onChange="incrementSum"/>
-            <Counter onChange="incrementSum"/>
-            <p>Tổng 2 counter (bắt đầu từ 2): <strong t-esc="state.sum"/></p>
+            <Counter onChange="(value) => this.onCounterAChange(value)"/>
+            <Counter onChange="(value) => this.onCounterBChange(value)"/>
+            <p>Tổng 2 counter (bắt đầu từ 2): <strong t-esc="sum"/></p>
 
-            <h3 class="mt-4">Card component</h3>
-            <Card title="'Hợp đồng sắp hết hạn'" content="'Có 3 hợp đồng sắp hết hạn trong 30 ngày tới.'"/>
-            <Card title="'Hợp đồng đang chạy'" content="'Hiện có 12 hợp đồng đang trong trạng thái chạy.'"/>
+            <h3 class="mt-4">Card component - dữ liệu thật từ database (dùng slot)</h3>
+            <Card title="'Hợp đồng sắp hết hạn'">
+                Có <t t-esc="contractStats.expiringSoon"/> hợp đồng sắp hết hạn trong 30 ngày tới.
+            </Card>
+            <Card title="'Hợp đồng đang chạy'">
+                Hiện có <t t-esc="contractStats.running"/> hợp đồng đang trong trạng thái chạy.
+            </Card>
 
-            <h3 class="mt-4">So sánh markup vs không markup</h3>
-            <Card title="'KHÔNG markup (bị escape)'" content="unsafeHtmlExample"/>
-            <Card title="'CÓ markup (render HTML thật)'" content="htmlExample"/>
+            <h3 class="mt-4">Card chứa cả 1 component khác (chứng minh sức mạnh của slot)</h3>
+            <Card title="'Card chứa Counter'">
+                <Counter/>
+            </Card>
+
+            <h3 class="mt-4">So sánh markup vs không markup (t-out trực tiếp, không qua Card nữa)</h3>
+            <p><strong>Không markup:</strong> <span t-out="unsafeHtmlExample"/></p>
+            <p><strong>Có markup:</strong> <span t-out="htmlExample"/></p>
+
+            <h3 class="mt-4">Todo List</h3>
+            <TodoList/>
         </div>
     </t>
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="employee.TodoList">
+        <div class="todo-list">
+            <input type="text"
+                   class="form-control mb-2"
+                   placeholder="Nhập công việc mới, nhấn Enter để thêm"
+                   t-ref="todoInput"
+                   t-on-keyup="addTodo"/>
+            <t t-foreach="todos" t-as="todo" t-key="todo.id">
+                <TodoItem todo="todo" toggleState.bind="toggleState" removeTodo.bind="removeTodo"/>
+            </t>
+        </div>
+    </t>
+
+</templates>

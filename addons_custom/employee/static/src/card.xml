@@ -2,10 +2,25 @@
 <templates xml:space="preserve">
 
     <t t-name="employee.Card">
-        <div class="card d-inline-block m-2" style="width: 18rem;">
+        <div class="card d-inline-block m-2"
+             style="width: 18rem;"
+             t-att-class="props.onClick ? 'cursor-pointer' : ''"
+             t-on-click="onCardClick">
             <div class="card-body">
-                <h5 class="card-title" t-esc="props.title"/>
-                <p class="card-text" t-out="props.content"/>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0" t-esc="props.title"/>
+                    <!-- .stop để chặn sự kiện click nổi bọt lên div cha,
+                         tránh vô tình kích hoạt onCardClick khi chỉ định
+                         bấm nút thu gọn -->
+                    <button class="btn btn-sm btn-outline-secondary"
+                            t-on-click.stop="toggle">
+                        <t t-if="state.isOpen">▲</t>
+                        <t t-else="">▼</t>
+                    </button>
+                </div>
+                <div class="card-text mt-2" t-if="state.isOpen">
+                    <t t-slot="default"/>
+                </div>
             </div>
         </div>
     </t>
