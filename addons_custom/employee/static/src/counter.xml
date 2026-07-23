@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="employee.Counter">
+        <div class="p-2 border rounded d-inline-block m-1">
+            <p>Giá trị hiện tại: <strong t-esc="state.value"/></p>
+            <button class="btn btn-primary" t-on-click="increment">
+                Tăng lên
+            </button>
+        </div>
+    </t>
+
+</templates>

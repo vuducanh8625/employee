@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         FILE HOÀN TOÀN ĐỘC LẬP - không tham chiếu/ghi đè bất kỳ
+         record nào từ file khác. An toàn tuyệt đối khi thêm vào.
+         ============================================================ -->
+
+    <!-- ================= KANBAN ================= -->
+    <record id="view_contract_dashboard_kanban" model="ir.ui.view">
+        <field name="name">contract.dashboard.kanban</field>
+        <field name="model">contract</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="employee_id"/>
+                <field name="contract_type_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+                <field name="total_salary"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong><field name="code"/> - <field name="employee_id"/></strong>
+                                <div>
+                                    <field name="contract_type_id"/>
+                                </div>
+                                <div class="text-muted">
+                                    <field name="start_date"/> → <field name="end_date"/>
+                                </div>
+                                <div>
+                                    <span class="badge badge-pill">
+                                        Tổng lương: <field name="total_salary"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================= PIVOT ================= -->
+    <record id="view_contract_dashboard_pivot" model="ir.ui.view">
+        <field name="name">contract.dashboard.pivot</field>
+        <field name="model">contract</field>
+        <field name="arch" type="xml">
+            <pivot string="Thống kê hợp đồng">
+                <field name="employee_id" type="row"/>
+                <field name="contract_type_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="total_salary" type="measure"/>
+                <field name="salary" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ================= GRAPH ================= -->
+    <record id="view_contract_dashboard_graph" model="ir.ui.view">
+        <field name="name">contract.dashboard.graph</field>
+        <field name="model">contract</field>
+        <field name="arch" type="xml">
+            <graph string="Hợp đồng theo trạng thái" type="bar" stacked="True">
+                <field name="contract_type_id"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ================= SEARCH ================= -->
+    <record id="view_contract_dashboard_search" model="ir.ui.view">
+        <field name="name">contract.dashboard.search</field>
+        <field name="model">contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="employee_id"/>
+                <field name="contract_type_id"/>
+                <filter string="Đang chạy" name="running"
+                        domain="[('state', '=', 'running')]"/>
+                <filter string="Sắp hết hạn (30 ngày)" name="expiring_soon"
+                        domain="[('state', '=', 'running'),
+                                 ('end_date', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Hết hạn" name="expired"
+                        domain="[('state', '=', 'expired')]"/>
+                <filter string="Nháp" name="draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Đã chấm dứt" name="terminated"
+                        domain="[('state', '=', 'terminated')]"/>
+                <separator/>
+                <filter string="Loại hợp đồng" name="group_contract_type"
+                        context="{'group_by': 'contract_type_id'}"/>
+                <filter string="Trạng thái" name="group_state"
+                        context="{'group_by': 'state'}"/>
+                <filter string="Nhân viên" name="group_employee"
+                        context="{'group_by': 'employee_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================= ACTION (mới, tên riêng, không trùng ID cũ) ================= -->
+    <record id="action_contract_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard hợp đồng</field>
+        <field name="res_model">contract</field>
+        <field name="view_mode">kanban,pivot,graph,list,form</field>
+        <field name="search_view_id" ref="view_contract_dashboard_search"/>
+        <field name="context">{'search_default_running': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có hợp đồng nào để hiển thị.
+            </p>
+        </field>
+    </record>
+
+    <!-- ================= MENU =================
+         Gộp vào menu "Employee" hiện có (parent="employee_parent"),
+         nằm ngay sau "Thống kê hợp đồng" (sequence=4) và trước
+         "Configuration" (sequence=5). Không sửa menu.xml gốc -
+         employee_parent chỉ được THAM CHIẾU (ref) tới, không ghi đè. -->
+    <menuitem id="menu_contract_dashboard"
+              name="Dashboard hợp đồng"
+              parent="employee_parent"
+              action="action_contract_dashboard"
+              sequence="41"/>
+
+</odoo>

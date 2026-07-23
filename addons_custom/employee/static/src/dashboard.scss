@@ -1,0 +1,13 @@
+.o_dashboard {
+    background-color: #f0f0f0;
+
+    // Mobile: mỗi card chiếm full chiều rộng, không còn width cố định
+    // theo size nữa, và bỏ margin ngang để không tràn màn hình
+    @media (max-width: 768px) {
+        .card {
+            width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    }
+}

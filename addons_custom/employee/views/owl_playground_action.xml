@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ir.actions.client: loại action đặc biệt, không mở model nào cả,
+         chỉ gọi thẳng 1 Owl component đã đăng ký trong JS (registry) -->
+    <record id="action_owl_playground" model="ir.actions.client">
+        <field name="name">Owl Playground</field>
+        <field name="tag">employee_owl_playground</field>
+    </record>
+
+    <menuitem id="menu_owl_playground"
+              name="Owl Playground"
+              parent="employee_parent"
+              action="action_owl_playground"
+              sequence="42"/>
+
+</odoo>

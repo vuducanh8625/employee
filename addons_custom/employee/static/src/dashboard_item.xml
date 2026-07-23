@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="employee.DashboardItem">
+        <div class="card d-inline-block m-2 align-top" t-attf-style="width: #{width};">
+            <div class="card-body">
+                <t t-slot="default"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -8,3 +8,4 @@ from . import contract_type
 from . import contract_allowance
 from . import contract_salary_history
 from . import contract_renew_wizard
+from . import res_users
