@@ -3,46 +3,31 @@
 
     <t t-name="employee.ContractDashboard">
         <Layout display="display" className="'o_dashboard h-100'">
-            <t t-set-slot="control-panel-navigation-buttons">
-                <button class="btn btn-primary" t-on-click="openCustomers">
+            <t t-set-slot="control-panel-top-left">
+                <button class="btn btn-primary me-2" t-on-click="openCustomers">
                     Customers
                 </button>
-                <button class="btn btn-secondary" t-on-click="openLeads">
+                <button class="btn btn-primary me-2" t-on-click="openLeads">
                     Leads
+                </button>
+                <button class="btn btn-secondary" t-on-click="openSettings" title="Tùy chỉnh Dashboard">
+                    <i class="fa fa-cog"/>
                 </button>
             </t>
 
-            <div class="p-4 d-flex flex-wrap">
-
-                <DashboardItem>
-                    <strong>Hợp đồng mới tháng này</strong>
-                    <p t-esc="statistics.nb_new_contracts"/>
-                </DashboardItem>
-
-                <DashboardItem>
-                    <strong>Tổng lương hợp đồng mới tháng này</strong>
-                    <p t-esc="statistics.total_salary_new"/>
-                </DashboardItem>
-
-                <DashboardItem>
-                    <strong>Lương TB/hợp đồng mới tháng này</strong>
-                    <p t-esc="statistics.avg_salary_new"/>
-                </DashboardItem>
-
-                <DashboardItem>
-                    <strong>Hợp đồng chấm dứt/hết hạn tháng này</strong>
-                    <p t-esc="statistics.nb_ended_contracts"/>
-                </DashboardItem>
-
-                <DashboardItem size="2">
-                    <strong>Thời gian TB tồn tại hợp đồng (ngày)</strong>
-                    <p t-esc="statistics.avg_duration_days"/>
-                </DashboardItem>
-
-                <DashboardItem size="2">
-                    <strong>Tỷ lệ áo bán theo size</strong>
-                    <PieChart data="tshirtData"/>
-                </DashboardItem>
+            <div class="p-4">
+                <t t-if="statistics.new_contracts !== undefined">
+                    <t t-foreach="items" t-as="item" t-key="item.id">
+                        <DashboardItem size="item.size || 1">
+                            <t t-set="itemProps"
+                               t-value="item.props ? item.props(statistics) : {data: statistics}"/>
+                            <t t-component="item.Component" t-props="itemProps"/>
+                        </DashboardItem>
+                    </t>
+                </t>
+                <t t-else="">
+                    <p>Đang tải dữ liệu...</p>
+                </t>
             </div>
         </Layout>
     </t>

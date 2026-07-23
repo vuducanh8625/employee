@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="employee.PieChartCard">
+        <h5 t-esc="props.title"/>
+        <PieChart data="props.data" onSliceClick="(index) => this.onSliceClick(index)"/>
+    </t>
+
+</templates>

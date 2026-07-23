@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="employee.NumberCard">
+        <h5 t-esc="props.title"/>
+        <p class="fs-3 mb-0" t-esc="props.value"/>
+    </t>
+
+</templates>

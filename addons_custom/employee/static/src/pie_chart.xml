@@ -2,9 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="employee.PieChart">
-        <div style="position: relative; height: 250px;">
-            <canvas t-ref="canvas"/>
-        </div>
+        <canvas t-ref="canvas"/>
     </t>
 
 </templates>

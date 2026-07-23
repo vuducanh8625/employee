@@ -1,1 +1,2 @@
-from . import contract_dashboard
+
+from . import main
